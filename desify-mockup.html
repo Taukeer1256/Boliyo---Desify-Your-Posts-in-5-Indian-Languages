@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Desify — paste it, get it in five languages</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Telugu:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050308; --bg2:#0c0a16; --card:#120f1e;
+  --ink:#f3f0f7; --sub:#948caa; --line:#221f34;
+  --blue:#5b6ee8; --violet:#9b5de5; --coral:#ff8a65;
+  --hindi:#7d8cf0; --tamil:#ff8a76; --bengali:#e0ac5f; --telugu:#5fd0c2; --marathi:#e08fc0;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg2:#100d1c; --card:#17132a; --line:#2a2640;
+  }
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:'Work Sans',sans-serif; min-height:100%;
+}
+.wrap{max-width:760px; margin:0 auto; padding:32px 22px 70px;}
+header{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:40px; gap:12px; flex-wrap:wrap;}
+.mark{display:flex; align-items:baseline; gap:8px;}
+.mark .glyph{font-family:'Noto Sans Devanagari'; font-size:1.4rem; color:var(--coral);}
+.mark .word{font-family:'Fraunces'; font-weight:600; font-size:1.1rem; letter-spacing:.2px;}
+.badge{font-size:.76rem; color:var(--sub); border:1px solid var(--line); border-radius:8px; padding:6px 11px;}
+
+.hero{text-align:center; position:relative;}
+.orb-wrap{width:220px; height:220px; margin:8px auto 6px; position:relative;}
+.orb-glow{position:absolute; inset:-50px; background:radial-gradient(circle, rgba(155,93,229,.35), rgba(91,110,232,.12) 45%, transparent 72%); filter:blur(22px);}
+.orb-wrap svg{position:relative; width:100%; height:100%;}
+.ring-rotate{transform-origin:200px 200px; animation:spin 16s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media (prefers-reduced-motion: reduce){ .ring-rotate{animation:none;} }
+
+.hero h1{
+  font-family:'Fraunces'; font-weight:300; font-size:2.3rem; line-height:1.24;
+  letter-spacing:.1px; margin:8px auto 14px; max-width:480px;
+}
+.hero h1 em{font-style:normal; font-weight:500; background:linear-gradient(90deg,var(--blue),var(--violet),var(--coral)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.hero p{color:var(--sub); font-size:1rem; max-width:420px; margin:0 auto 30px; line-height:1.55;}
+
+.inputcard{max-width:560px; margin:0 auto; text-align:left;}
+textarea{
+  width:100%; min-height:100px; background:var(--card); border:1px solid var(--line);
+  border-radius:10px; color:var(--ink); font-family:'Work Sans'; font-size:.98rem;
+  padding:16px; resize:vertical; outline:none;
+}
+textarea:focus{border-color:var(--violet);}
+.row{display:flex; align-items:center; justify-content:space-between; margin-top:16px; flex-wrap:wrap; gap:12px;}
+button.cta{
+  background:linear-gradient(90deg,var(--blue),var(--violet)); color:#fff; border:none; border-radius:8px;
+  font-family:'Work Sans'; font-weight:600; font-size:.95rem; padding:13px 24px;
+  cursor:pointer; transition:opacity .15s ease;
+}
+button.cta:hover{opacity:.88;}
+button.cta:focus-visible{outline:2px solid var(--violet); outline-offset:3px;}
+.counter{font-size:.82rem; color:var(--sub);}
+.counter b{color:var(--ink); font-weight:600;}
+
+section.results{margin-top:58px;}
+section.results > p{font-size:.86rem; color:var(--sub); margin:0 0 18px;}
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px;}
+.card{
+  background:var(--card); border:1px solid var(--line); border-left:3px solid var(--dye);
+  border-radius:8px; padding:18px; display:flex; flex-direction:column; gap:10px;
+}
+.card .native{font-size:1.15rem; color:var(--dye);}
+.card .native.deva{font-family:'Noto Sans Devanagari';}
+.card .native.tam{font-family:'Noto Sans Tamil';}
+.card .native.ben{font-family:'Noto Sans Bengali';}
+.card .native.tel{font-family:'Noto Sans Telugu';}
+.card .caption{font-size:.72rem; color:var(--sub); margin-top:-6px;}
+.card .txt{font-size:.95rem; line-height:1.5;}
+.card .txt.deva{font-family:'Noto Sans Devanagari';}
+.card .txt.tam{font-family:'Noto Sans Tamil';}
+.card .txt.ben{font-family:'Noto Sans Bengali';}
+.card .txt.tel{font-family:'Noto Sans Telugu';}
+.card .copy{cursor:pointer; font-size:.76rem; color:var(--sub); align-self:flex-start; background:none; border:none; padding:0; font-family:'Work Sans';}
+.card .copy:hover{color:var(--dye);}
+
+.audio{display:flex; align-items:center; gap:10px; margin-top:2px;}
+.play{
+  width:28px; height:28px; border-radius:50%; background:var(--dye); color:var(--card);
+  display:flex; align-items:center; justify-content:center; font-size:.7rem; flex-shrink:0;
+  border:none; cursor:pointer;
+}
+.wave{display:flex; align-items:center; gap:2px; height:18px; flex:1;}
+.wave i{width:3px; background:var(--dye); opacity:.5; border-radius:2px; height:40%; transition:height .2s ease;}
+.wave i:nth-child(3n){height:80%;} .wave i:nth-child(5n){height:60%;}
+.wave.playing i{animation:bounce 1s ease-in-out infinite;}
+.wave.playing i:nth-child(2n){animation-delay:.15s;} .wave.playing i:nth-child(3n){animation-delay:.3s;}
+@keyframes bounce{0%,100%{height:35%;} 50%{height:95%;}}
+
+footer{margin-top:64px; font-size:.78rem; color:var(--sub);}
+footer a{color:var(--coral); text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="mark"><span class="glyph">अ</span><span class="word">desify</span></div>
+    <div class="badge">Built with Sarvam AI</div>
+  </header>
+
+  <div class="hero">
+    <div class="orb-wrap">
+      <div class="orb-glow"></div>
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#5b6ee8"/>
+            <stop offset="45%" stop-color="#9b5de5"/>
+            <stop offset="80%" stop-color="#ff8a65"/>
+            <stop offset="100%" stop-color="#5b6ee8"/>
+          </linearGradient>
+          <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.5"/></filter>
+        </defs>
+        <g class="ring-rotate">
+          <circle cx="200" cy="200" r="128" fill="none" stroke="url(#ringGrad)" stroke-width="16" stroke-linecap="round" filter="url(#soft)" opacity="0.92" transform="rotate(-20 200 200)" stroke-dasharray="620 220"/>
+          <circle cx="200" cy="200" r="118" fill="none" stroke="url(#ringGrad)" stroke-width="6" stroke-linecap="round" opacity="0.55" transform="rotate(35 200 200)" stroke-dasharray="500 240"/>
+        </g>
+      </svg>
+    </div>
+    <h1>Paste a post. Read it in <em>five Indian languages</em>. Hear it in one.</h1>
+    <p>Drop in any tweet or LinkedIn post — Sarvam AI translates it and voices the Hindi version back to you, no sign-up needed.</p>
+    <div class="inputcard">
+      <textarea placeholder="Paste your post here...">Excited to share that I just shipped my first side project 🚀</textarea>
+      <div class="row">
+        <button class="cta">Desify it</button>
+        <div class="counter"><b>1,247</b> posts desified so far</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="results">
+    <p>Here's how your post landed:</p>
+    <div class="grid">
+      <div class="card" style="--dye:var(--hindi)">
+        <div class="native deva">हिंदी</div>
+        <div class="caption">Hindi</div>
+        <div class="txt deva">मुझे यह बताते हुए खुशी हो रही है कि मैंने अपना पहला साइड प्रोजेक्ट शिप कर दिया 🚀</div>
+        <div class="audio">
+          <button class="play" onclick="toggleWave(this)">▶</button>
+          <div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <button class="copy" onclick="copyCard(this)">Copy text</button>
+      </div>
+      <div class="card" style="--dye:var(--tamil)">
+        <div class="native tam">தமிழ்</div>
+        <div class="caption">Tamil</div>
+        <div class="txt tam">என் முதல் சைட் புராஜெக்ட்டை ஷிப் செய்ததில் மகிழ்ச்சி 🚀</div>
+        <button class="copy" onclick="copyCard(this)">Copy text</button>
+      </div>
+      <div class="card" style="--dye:var(--bengali)">
+        <div class="native ben">বাংলা</div>
+        <div class="caption">Bengali</div>
+        <div class="txt ben">আমার প্রথম সাইড প্রজেক্ট শিপ করতে পেরে আমি খুব খুশি 🚀</div>
+        <button class="copy" onclick="copyCard(this)">Copy text</button>
+      </div>
+      <div class="card" style="--dye:var(--telugu)">
+        <div class="native tel">తెలుగు</div>
+        <div class="caption">Telugu</div>
+        <div class="txt tel">నా మొదటి సైడ్ ప్రాజెక్ట్‌ని షిప్ చేయడం చాలా సంతోషంగా ఉంది 🚀</div>
+        <button class="copy" onclick="copyCard(this)">Copy text</button>
+      </div>
+      <div class="card" style="--dye:var(--marathi)">
+        <div class="native deva">मराठी</div>
+        <div class="caption">Marathi</div>
+        <div class="txt deva">माझा पहिला साइड प्रोजेक्ट शिप केल्याचा आनंद आहे 🚀</div>
+        <button class="copy" onclick="copyCard(this)">Copy text</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>Translation &amp; speech powered by <a href="#">Sarvam AI</a>.</footer>
+</div>
+<script>
+function toggleWave(btn){
+  var wave = btn.nextElementSibling;
+  var playing = wave.classList.toggle('playing');
+  btn.textContent = playing ? '❚❚' : '▶';
+}
+function copyCard(btn){
+  var txt = btn.parentElement.querySelector('.txt').textContent.trim();
+  try{
+    navigator.clipboard.writeText(txt);
+    var old = btn.textContent;
+    btn.textContent = 'Copied';
+    setTimeout(function(){ btn.textContent = old; }, 1200);
+  }catch(e){}
+}
+</script>
+</body>
+</html>
