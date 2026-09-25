@@ -1,4 +1,5 @@
 services:
+  # ── Backend: FastAPI ─────────────────────────────────────────────────────────
   - type: web
     name: boliyo-api
     runtime: python
@@ -7,5 +8,19 @@ services:
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: SARVAM_API_KEY
-        sync: false
+        sync: false          # Set manually in Render dashboard
+    plan: free
+
+  # ── Frontend: Next.js ────────────────────────────────────────────────────────
+  - type: web
+    name: boliyo-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        sync: false          # Set to your boliyo-api URL in Render dashboard
+      - key: NODE_VERSION
+        value: "20"
     plan: free
